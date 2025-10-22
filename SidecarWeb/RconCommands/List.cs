@@ -29,7 +29,7 @@ internal static partial class Players
             return ValueTask.FromResult<IResponse>(new Response([.. list], maxPlayers));
         }
 
-        [GeneratedRegex(@"There are \d+ of a max of (\d+) players online: ")]
+        [GeneratedRegex(@"There are \d+ of a max of (\d+) players online:")]
         private static partial Regex ResultRegex();
     }
 
