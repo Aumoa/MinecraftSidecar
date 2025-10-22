@@ -30,6 +30,10 @@ builder.Services.Configure<MySqlOptions>(builder.Configuration.GetRequiredSectio
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetRequiredSection("JwtOptions"));
 builder.Services.AddScoped<JwtTokenIssuer>();
 
+builder.Services.Configure<RconConnectorOptions>(builder.Configuration.GetRequiredSection("RconConnector"));
+builder.Services.AddSingleton<RconConnector>();
+builder.Services.AddHostedService(p => p.GetRequiredService<RconConnector>());
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
