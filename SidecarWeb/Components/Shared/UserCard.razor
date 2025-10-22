@@ -1,0 +1,16 @@
+﻿@using SidecarWeb.Services
+@inject NavigationManager Nav
+@inject AuthProvider Auth
+
+<div>
+    <span title="@Auth.Sub">@(Auth.Name)</span>
+    <span>(@(Auth.Email))</span>
+</div>
+<button class="link-button" onclick="@OnClick_Logout">@Strings.USERCARD_LOGOUT</button>
+
+@code {
+    private void OnClick_Logout()
+    {
+        Nav.NavigateTo("/auth/logout", forceLoad: true);
+    }
+}

@@ -1,0 +1,10 @@
+﻿@page "/"
+@using SidecarWeb.Services
+@inject AuthProvider Auth
+
+<table>
+    <tr>
+        <th>Sub</th>
+        <td>@Auth.Sub</td>
+    </tr>
+</table>

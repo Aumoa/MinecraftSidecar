@@ -1,0 +1,12 @@
+﻿@inherits LayoutComponentBase
+
+<AuthorizeView>
+    <Authorized>
+        <RedirectToMain />
+    </Authorized>
+    <NotAuthorized>
+        <div class="page-center">
+            @Body
+        </div>
+    </NotAuthorized>
+</AuthorizeView>

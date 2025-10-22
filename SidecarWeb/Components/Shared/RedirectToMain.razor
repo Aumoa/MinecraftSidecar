@@ -1,0 +1,11 @@
+﻿@using Microsoft.Extensions.Options
+@using SidecarWeb.Options
+@inject NavigationManager Nav
+@inject IOptions<OAuth2Option> Options
+
+@code {
+    protected override void OnInitialized()
+    {
+        Nav.NavigateTo("/", true);
+    }
+}

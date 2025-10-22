@@ -1,0 +1,107 @@
+﻿@page "/auth/login/redirect"
+@using Microsoft.Extensions.Options
+@using OAuth2.DTO
+@using SidecarWeb.Options
+@using SidecarWeb.Services
+@using System.Security.Claims
+@using System.Net.Http.Headers
+@layout NotAuthorizedLayout
+@inject IOptions<OAuth2Option> Option
+@inject NavigationManager Nav
+@inject HttpClient Http
+@inject IHttpContextAccessor HttpContextAccessor
+@inject JwtTokenIssuer JwtIssuer
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "code")]
+    public string Code { get; set; } = null!;
+
+    private bool m_Proceeded;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (m_Proceeded)
+        {
+            return;
+        }
+
+        try
+        {
+            ArgumentException.ThrowIfNullOrWhiteSpace(Code);
+
+            var httpContext = HttpContextAccessor.HttpContext;
+            if (httpContext == null)
+            {
+                throw new InvalidOperationException("HTTP context is not available.");
+            }
+
+            var formData = new Dictionary<string, string>()
+            {
+                ["grant_type"] = "authorization_code",
+                ["code"] = Code,
+                ["redirect_uri"] = Nav.BaseUri + "auth/login/redirect",
+                ["client_id"] = Option.Value.ClientId
+            };
+
+            TokenResponse? tokenResponse;
+            UserInfo userInfo;
+            using (var content = new FormUrlEncodedContent(formData))
+            {
+                using var response = await Http.PostAsync(Option.Value.Token, content);
+                if (response.IsSuccessStatusCode == false)
+                {
+                    var str = await content.ReadAsStringAsync();
+                    throw new InvalidOperationException($"Failed to get token: {response.StatusCode} - {str}");
+                }
+
+                tokenResponse = await response.Content.ReadFromJsonAsync<TokenResponse>();
+                if (tokenResponse == null)
+                {
+                    throw new InvalidOperationException("Failed to parse token response.");
+                }
+            }
+
+            using (var userInfoRequest = new HttpRequestMessage(HttpMethod.Get, Option.Value.UserInfo))
+            {
+                userInfoRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", tokenResponse.AccessToken);
+                using var response = await Http.SendAsync(userInfoRequest);
+                if (response.IsSuccessStatusCode == false)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                userInfo = await response.Content.ReadFromJsonAsync<UserInfo>();
+            }
+
+            // TODO:
+            if (userInfo.Sub != "8U0alRFDbiSxj5S0RHE9Kta/N4I6xUG3HngJGdvxGJE=")
+            {
+                throw new InvalidOperationException("Not allowed user.");
+            }
+
+            var jwtToken = JwtIssuer.Issue(
+                new Claim("access_token", tokenResponse.AccessToken),
+                new Claim("refresh_token", tokenResponse.RefreshToken),
+                new Claim(ClaimNames.Sub, userInfo.Sub),
+                new Claim(ClaimNames.Name, userInfo.Name ?? string.Empty),
+                new Claim(ClaimNames.Email, userInfo.Email ?? string.Empty),
+                new Claim(ClaimNames.Picture, userInfo.Picture ?? string.Empty)
+            );
+
+            httpContext.Response.Cookies.Append("jwt_token", jwtToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict
+            });
+
+            Nav.NavigateTo("/", forceLoad: true);
+        }
+        catch
+        {
+            m_Proceeded = false;
+            throw;
+        }
+    }
+}
