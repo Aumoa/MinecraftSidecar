@@ -26,9 +26,6 @@ public partial class RconConnector(ILogger<RconConnector> logger, IOptions<RconC
                     rcon.Dispose();
                     continue;
                 }
-                finally
-                {
-                }
 
                 try
                 {
