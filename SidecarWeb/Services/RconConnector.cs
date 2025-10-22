@@ -15,7 +15,7 @@ public partial class RconConnector(ILogger<RconConnector> logger, IOptions<RconC
         {
             foreach (var addr in await ResolveEndPointAsync(options.Value.Server, stoppingToken))
             {
-                var rcon = new RCON(IPEndPoint.Parse(options.Value.Server), options.Value.Secret, logger: logger);
+                var rcon = new RCON(addr, options.Value.Secret, logger: logger);
                 try
                 {
                     await rcon.ConnectAsync().WaitAsync(stoppingToken);
