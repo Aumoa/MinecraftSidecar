@@ -123,6 +123,12 @@
   <data name="AUTH_LOGIN" xml:space="preserve">
     <value>Login</value>
   </data>
+  <data name="DASHBOARD_ACTIVATED_USERS" xml:space="preserve">
+    <value>Activated Users</value>
+  </data>
+  <data name="DASHBOARD_WELCOME" xml:space="preserve">
+    <value>Welcome to Minecraft Sidecar!</value>
+  </data>
   <data name="NAVMENU_DASHBOARD_LABEL" xml:space="preserve">
     <value>Dashboard</value>
   </data>

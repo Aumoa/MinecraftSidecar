@@ -123,6 +123,12 @@
   <data name="AUTH_LOGIN" xml:space="preserve">
     <value>로그인</value>
   </data>
+  <data name="DASHBOARD_ACTIVATED_USERS" xml:space="preserve">
+    <value>활성 유저 수</value>
+  </data>
+  <data name="DASHBOARD_WELCOME" xml:space="preserve">
+    <value>Minecraft Sidecar 서비스에 오신 것을 환영합니다!</value>
+  </data>
   <data name="NAVMENU_DASHBOARD_LABEL" xml:space="preserve">
     <value>대시보드</value>
   </data>

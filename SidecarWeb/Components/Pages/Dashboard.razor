@@ -5,47 +5,30 @@
 @inject RconConnector Rcon
 @inject IJSRuntime JSRuntime
 
-<h5>@Strings.DASHBOARD_WELCOME</h5>
+<div class="title-layout">
+    <h3>@Strings.DASHBOARD_WELCOME</h3>
+    <button class="image-button">
+        <span class="material-symbols-outlined">refresh</span>
+    </button>
+</div>
+
 <table>
     <tr>
-        <th>Sub</th>
-        <td>@Auth.Sub</td>
-    </tr>
-    <tr>
-        <th>Players</th>
-        <td>@UserList</td>
-    </tr>
-    <tr>
-        <th>Utility</th>
-        <td>
-            <button type="button" @onclick="SaveAsync">Save</button>
-            <button type="button" @onclick="RestartAsync">Restart</button>
-        </td>
+        <th>@Strings.DASHBOARD_ACTIVATED_USERS</th>
+        <td>@UserCount</td>
     </tr>
 </table>
 
 @code {
-    private string UserList { get; set; } = string.Empty;
+    private int UserCount { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
             var playersResponse = await Rcon.SendCommandAsync(Players.Get());
-            UserList = playersResponse.ToString();
+            UserCount = playersResponse.Users.Length;
             StateHasChanged();
         }
-    }
-
-    private async Task SaveAsync()
-    {
-        var response = await Rcon.SendCommandAsync(Save.Get());
-        await JSRuntime.InvokeVoidAsync("alert", "World saved successfully!");
-    }
-
-    private async Task RestartAsync()
-    {
-        var response = await Rcon.SendCommandAsync(Stop.Get());
-        await JSRuntime.InvokeVoidAsync("alert", "Server is stopping!");
     }
 }

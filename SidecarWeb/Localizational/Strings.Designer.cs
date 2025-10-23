@@ -79,6 +79,24 @@ namespace SidecarWeb.Localizational {
         }
         
         /// <summary>
+        ///   Activated Users과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string DASHBOARD_ACTIVATED_USERS {
+            get {
+                return ResourceManager.GetString("DASHBOARD_ACTIVATED_USERS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Welcome to Minecraft Sidecar!과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string DASHBOARD_WELCOME {
+            get {
+                return ResourceManager.GetString("DASHBOARD_WELCOME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Dashboard과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string NAVMENU_DASHBOARD_LABEL {

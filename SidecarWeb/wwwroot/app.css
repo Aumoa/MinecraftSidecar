@@ -94,3 +94,10 @@ button {
         color: #0056b3;
         text-decoration: underline;
     }
+
+.image-button {
+    background-color: transparent;
+    border: none;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
