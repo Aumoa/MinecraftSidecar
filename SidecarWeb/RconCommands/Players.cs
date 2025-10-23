@@ -12,9 +12,14 @@ internal static partial class Players
         }
     }
 
-    public partial record Request() : IRequest
+    public partial record Request() : IRequest<Response>
     {
-        public ValueTask<IResponse> ParseAsync(string commandResult, CancellationToken cancellationToken)
+        public override string ToString()
+        {
+            return "list";
+        }
+
+        public ValueTask<Response> ParseAsync(string commandResult, CancellationToken cancellationToken)
         {
             var match = ResultRegex().Match(commandResult);
             if (match.Success == false)
@@ -26,7 +31,7 @@ internal static partial class Players
             var list = remains.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
             int maxPlayers = int.Parse(match.Groups[1].Value);
 
-            return ValueTask.FromResult<IResponse>(new Response([.. list], maxPlayers));
+            return ValueTask.FromResult(new Response([.. list], maxPlayers));
         }
 
         [GeneratedRegex(@"There are \d+ of a max of (\d+) players online:")]

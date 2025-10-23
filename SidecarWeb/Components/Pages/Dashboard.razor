@@ -1,10 +1,28 @@
 ﻿@page "/"
 @using SidecarWeb.Services
 @inject AuthProvider Auth
+@inject RconConnector Rcon
 
 <table>
     <tr>
         <th>Sub</th>
         <td>@Auth.Sub</td>
     </tr>
+    <tr>
+        <th>Players</th>
+        <td>@UserList</td>
+    </tr>
 </table>
+
+@code {
+    private string UserList { get; set; } = string.Empty;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var playersResponse = await Rcon.SendCommandAsync(new RconCommands.Players.Request());
+            UserList = playersResponse.ToString();
+        }
+    }
+}
