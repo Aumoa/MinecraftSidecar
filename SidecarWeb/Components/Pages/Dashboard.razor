@@ -23,6 +23,7 @@
         {
             var playersResponse = await Rcon.SendCommandAsync(new RconCommands.Players.Request());
             UserList = playersResponse.ToString();
+            StateHasChanged();
         }
     }
 }
