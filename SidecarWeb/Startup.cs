@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Options;
 using SidecarWeb.Components;
 using SidecarWeb.Options;
@@ -13,6 +14,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddHttpClient();
+
+var dataProtection = builder.Configuration.GetSection("DataProtection");
+if (dataProtection.Exists())
+{
+    var keyPath = dataProtection.GetValue<string>("KeyPath")
+        ?? throw new InvalidOperationException("DataProtection:KeyPath is not configured.");
+    builder.Services.AddDataProtection()
+        .PersistKeysToFileSystem(new DirectoryInfo(keyPath))
+        .SetApplicationName("MinecraftSidecar");
+}
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<AuthProvider>();
