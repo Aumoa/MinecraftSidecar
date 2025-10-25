@@ -108,9 +108,9 @@ namespace SidecarWeb.Localizational {
         /// <summary>
         ///   Logout과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
-        internal static string USERCARD_LOGOUT {
+        internal static string PROFILECARD_LOGOUT {
             get {
-                return ResourceManager.GetString("USERCARD_LOGOUT", resourceCulture);
+                return ResourceManager.GetString("PROFILECARD_LOGOUT", resourceCulture);
             }
         }
     }
