@@ -57,7 +57,6 @@ internal partial class RconConnector(ILogger<RconConnector> logger, IOptions<Rco
                 catch (Exception e)
                 {
                     logger.LogInformation("RCON connection failed: {Message}", e.Message);
-                    rcon.Dispose();
                     continue;
                 }
 
