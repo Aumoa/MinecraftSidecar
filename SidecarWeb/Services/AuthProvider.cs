@@ -16,7 +16,7 @@ public class AuthProvider(IHttpContextAccessor Accessor) : AuthenticationStatePr
             var httpContext = Accessor.HttpContext;
             if (httpContext != null)
             {
-                var jwtToken = httpContext.Request.Cookies["jwt_token"];
+                var jwtToken = httpContext.Request.Cookies["id_token"];
                 if (!string.IsNullOrEmpty(jwtToken))
                 {
                     var handler = new JwtSecurityTokenHandler();
@@ -26,30 +26,10 @@ public class AuthProvider(IHttpContextAccessor Accessor) : AuthenticationStatePr
                     var principal = new ClaimsPrincipal(identity);
                     m_User = principal;
 
-                    Sub = null;
-                    Name = null;
-                    Email = null;
-                    Picture = null;
-
-                    foreach (var claim in claims)
-                    {
-                        if (claim.Type == ClaimNames.Sub)
-                        {
-                            Sub = claim.Value;
-                        }
-                        else if (claim.Type == ClaimNames.Name)
-                        {
-                            Name = claim.Value;
-                        }
-                        else if (claim.Type == ClaimNames.Email)
-                        {
-                            Email = claim.Value;
-                        }
-                        else if (claim.Type == ClaimNames.Picture)
-                        {
-                            Picture = claim.Value;
-                        }
-                    }
+                    Sub = m_User.FindFirstValue(JwtRegisteredClaimNames.Sub);
+                    Name = m_User.FindFirstValue(JwtRegisteredClaimNames.Name);
+                    Email = m_User.FindFirstValue(JwtRegisteredClaimNames.Email);
+                    Picture = m_User.FindFirstValue(JwtRegisteredClaimNames.Picture);
                 }
             }
 
