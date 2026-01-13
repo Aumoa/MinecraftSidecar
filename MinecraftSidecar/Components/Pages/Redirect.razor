@@ -1,0 +1,67 @@
+﻿@page "/redirect"
+@using Microsoft.Extensions.Options
+@using MinecraftSidecar.Options
+@using OAuth2.DTO
+@inject NavigationManager Nav
+@inject IOptions<OIDC> Options
+@inject IHttpContextAccessor HttpContextAccessor
+@inject HttpClient Http
+@layout NotAuthorizedLayout
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "code")]
+    public string Code { get; set; } = null!;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (string.IsNullOrWhiteSpace(Code))
+        {
+            Nav.NavigateTo("/error");
+            return;
+        }
+
+        var formData = new Dictionary<string, string>()
+        {
+            ["grant_type"] = "authorization_code",
+            ["code"] = Code,
+            ["redirect_uri"] = Nav.BaseUri + "redirect",
+            ["client_id"] = Options.Value.ClientId,
+            ["client_secret"] = Options.Value.ClientSecret
+        };
+        using var content = new FormUrlEncodedContent(formData);
+        using var response = await Http.PostAsync(Options.Value.Uri + "/api/v1/token", content);
+        if (response.IsSuccessStatusCode == false)
+        {
+            var str = await content.ReadAsStringAsync();
+            Nav.NavigateTo("/error");
+            return;
+        }
+
+        var tokenResponse = await response.Content.ReadFromJsonAsync<TokenResponse>();
+        if (tokenResponse == null)
+        {
+            Nav.NavigateTo("/error");
+            return;
+        }
+
+        var httpContext = HttpContextAccessor.HttpContext;
+        if (httpContext == null)
+        {
+            Nav.NavigateTo("/error");
+            return;
+        }
+
+        if (tokenResponse.IdToken != null)
+        {
+            httpContext.Response.Cookies.Append("id_token", tokenResponse.IdToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict
+            });
+        }
+
+        Nav.NavigateTo("/", forceLoad: true);
+    }
+}
