@@ -2,7 +2,6 @@ using System.Globalization;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Localization;
 using MinecraftSidecar.Components;
 using MinecraftSidecar.Options;
 using MinecraftSidecar.Services;
@@ -16,9 +15,10 @@ var supportedCultures = new[] { new CultureInfo("en-US"), new CultureInfo("ko-KR
 builder.Services.AddLocalization(o => o.ResourcesPath = "Localizations");
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
-    options.DefaultRequestCulture = new RequestCulture("en-US");
-    options.SupportedCultures = supportedCultures;
-    options.SupportedUICultures = supportedCultures;
+    string[] supportedCultures = ["en", "ko"];
+    options.SetDefaultCulture("en")
+           .AddSupportedCultures(supportedCultures)
+           .AddSupportedUICultures(supportedCultures);
 });
 
 var dataProtection = builder.Configuration.GetSection("DataProtection");

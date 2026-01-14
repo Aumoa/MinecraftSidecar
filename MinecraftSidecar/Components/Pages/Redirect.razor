@@ -61,7 +61,15 @@
                 SameSite = SameSiteMode.Strict
             });
         }
+    }
 
-        Nav.NavigateTo("/", forceLoad: true);
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Nav.NavigateTo("/", forceLoad: true);
+        }
+
+        return base.OnAfterRenderAsync(firstRender);
     }
 }
