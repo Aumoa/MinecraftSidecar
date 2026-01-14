@@ -156,10 +156,9 @@
         try
         {
             // RCON 설정 가져오기
-            var rconSettings = Configuration.GetSection("RconSettings");
+            var rconSettings = Configuration.GetSection("RCON");
             var host = rconSettings.GetValue<string>("Host") ?? "127.0.0.1";
             var port = rconSettings.GetValue<int>("Port");
-            var password = rconSettings.GetValue<string>("Password") ?? string.Empty;
 
             // 이미 연결되어 있지 않다면 연결 시도
             if (!RconClient.IsConnected)
