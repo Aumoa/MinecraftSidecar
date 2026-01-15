@@ -70,20 +70,29 @@ namespace MinecraftSidecar.Localizations {
         }
         
         /// <summary>
-        ///   Dashboard과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   Permission Denied.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
-        internal static string NAVMENU_LABEL_DASHBOARD {
+        internal static string ERROR_PERMISSION_DENIED {
             get {
-                return ResourceManager.GetString("NAVMENU_LABEL_DASHBOARD", resourceCulture) ?? "Dashboard";
+                return ResourceManager.GetString("ERROR_PERMISSION_DENIED", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Server Console과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   Please contact an administrator to request &apos;{0}&apos; permission.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
-        internal static string NAVMENU_LABEL_SERVER_CONSOLE {
+        internal static string ERROR_PERMISSION_DENIED_DESCRIPTION {
             get {
-                return ResourceManager.GetString("NAVMENU_LABEL_SERVER_CONSOLE", resourceCulture) ?? "Server Console";
+                return ResourceManager.GetString("ERROR_PERMISSION_DENIED_DESCRIPTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Dashboard과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string NAVMENU_LABEL_DASHBOARD {
+            get {
+                return ResourceManager.GetString("NAVMENU_LABEL_DASHBOARD", resourceCulture);
             }
         }
         
@@ -92,16 +101,16 @@ namespace MinecraftSidecar.Localizations {
         /// </summary>
         internal static string NAVMENU_LABEL_PLAYERS {
             get {
-                return ResourceManager.GetString("NAVMENU_LABEL_PLAYERS", resourceCulture) ?? "Players";
+                return ResourceManager.GetString("NAVMENU_LABEL_PLAYERS", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Settings과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   Terminal과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
-        internal static string NAVMENU_LABEL_SETTINGS {
+        internal static string NAVMENU_LABEL_SERVER_CONSOLE {
             get {
-                return ResourceManager.GetString("NAVMENU_LABEL_SETTINGS", resourceCulture) ?? "Settings";
+                return ResourceManager.GetString("NAVMENU_LABEL_SERVER_CONSOLE", resourceCulture);
             }
         }
     }

@@ -20,10 +20,23 @@ public class JwtAuthenticationStateProvider(IHttpContextAccessor accessor) : Aut
                 {
                     var handler = new JwtSecurityTokenHandler();
                     var token = handler.ReadJwtToken(jwtToken);
-                    var claims = token.Claims.ToList();
-                    var identity = new ClaimsIdentity(claims, "JwtAuthType");
-                    var principal = new ClaimsPrincipal(identity);
-                    m_CurrentUser = principal;
+                    var identity = new ClaimsIdentity(token.Claims, "JwtAuthType");
+                    foreach (var claim in identity.FindAll("groups").ToArray())
+                    {
+                        var role = claim.Value switch
+                        {
+                            "admin" => "Administrator",
+                            _ => "Guest"
+                        };
+
+                        identity.AddClaim(new Claim(ClaimTypes.Role, role));
+                    }
+
+                    if (identity.FindFirst("groups")?.Value == "admin")
+                    {
+                        var principal = new ClaimsPrincipal(identity);
+                        m_CurrentUser = principal;
+                    }
                 }
             }
 

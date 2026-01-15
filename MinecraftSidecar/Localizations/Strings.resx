@@ -120,4 +120,19 @@
   <data name="APP_TITLE" xml:space="preserve">
     <value>Minecraft Sidecar</value>
   </data>
+  <data name="ERROR_PERMISSION_DENIED" xml:space="preserve">
+    <value>Permission Denied.</value>
+  </data>
+  <data name="ERROR_PERMISSION_DENIED_DESCRIPTION" xml:space="preserve">
+    <value>Please contact an administrator to request '{0}' permission.</value>
+  </data>
+  <data name="NAVMENU_LABEL_DASHBOARD" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="NAVMENU_LABEL_PLAYERS" xml:space="preserve">
+    <value>Players</value>
+  </data>
+  <data name="NAVMENU_LABEL_SERVER_CONSOLE" xml:space="preserve">
+    <value>Terminal</value>
+  </data>
 </root>
