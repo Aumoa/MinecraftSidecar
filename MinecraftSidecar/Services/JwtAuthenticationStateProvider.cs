@@ -32,11 +32,8 @@ public class JwtAuthenticationStateProvider(IHttpContextAccessor accessor) : Aut
                         identity.AddClaim(new Claim(ClaimTypes.Role, role));
                     }
 
-                    if (identity.FindFirst("groups")?.Value == "admin")
-                    {
-                        var principal = new ClaimsPrincipal(identity);
-                        m_CurrentUser = principal;
-                    }
+                    var principal = new ClaimsPrincipal(identity);
+                    m_CurrentUser = principal;
                 }
             }
 
