@@ -32,6 +32,8 @@ if (dataProtection.Exists())
 }
 
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddHttpClient<TokenRefreshService>();
+builder.Services.AddScoped<TokenRefreshService>();
 builder.Services.AddScoped<JwtAuthenticationStateProvider>();
 builder.Services.AddScoped<AuthenticationStateProvider>(p => p.GetRequiredService<JwtAuthenticationStateProvider>());
 builder.Services.AddAuthentication("Bearer")

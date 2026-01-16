@@ -11,12 +11,8 @@
             throw new InvalidOperationException();
         }
 
-        httpContext.Response.Cookies.Delete("id_token", new CookieOptions
-        {
-            HttpOnly = true,
-            Secure = true,
-            SameSite = SameSiteMode.Strict
-        });
+        httpContext.Response.Cookies.Delete("id_token");
+        httpContext.Response.Cookies.Delete("refresh_token");
 
         return Task.CompletedTask;
     }

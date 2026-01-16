@@ -58,7 +58,21 @@
             {
                 HttpOnly = true,
                 Secure = true,
-                SameSite = SameSiteMode.Strict
+                SameSite = SameSiteMode.Strict,
+                Path = "/",
+                Expires = DateTimeOffset.UtcNow.AddHours(1)
+            });
+        }
+
+        if (tokenResponse.RefreshToken != null)
+        {
+            httpContext.Response.Cookies.Append("refresh_token", tokenResponse.RefreshToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Path = "/",
+                Expires = DateTimeOffset.UtcNow.AddDays(30)
             });
         }
     }
